@@ -1,0 +1,15 @@
+keystore "ijvmkeys";
+
+grant signedBy "friend" {
+    permission java.io.FilePermission "question.txt", "read";
+    permission java.io.FilePermission "answer.txt", "read";
+};
+
+grant signedBy "stranger" {
+    permission java.io.FilePermission "question.txt", "read";
+};
+
+grant codeBase "file:${com.artima.ijvm.cdrom.home}/security/ex2/*" {
+	permission java.io.FilePermission "question.txt", "read";
+	permission java.io.FilePermission "answer.txt", "read";
+};

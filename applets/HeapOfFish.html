@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>Inside J2VM Interactive Illustrations - Heap of Fish</TITLE>
+<META NAME="description" content="Heap of Fish (Java applet) - A
+simulation of a garbage-collected heap.">
+<META NAME="keywords" content="Java Virtual Machine, Garbage Collection,
+Mark and Sweep, Heap Compaction">
+<META NAME="author" content="Bill Venners">
+</HEAD>
+<!--BEGIN_ARTIMA_COLOR_SCHEME-->
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#000099" VLINK="#009999" ALINK="#CC0000">
+<!--END_ARTIMA_COLOR_SCHEME-->
+<!--BEGIN_FISH_HEADING--> 
+<CENTER>
+<IMG src="images/fishhead.gif" alt="Interactive Illustrations for Inside the
+Java 2 Virtual Machine">
+</CENTER>
+<!--END_FISH_HEADING--> 
+<!--BEGIN_MAIN_TITLES-->
+<FONT face="arial, helvetica" COLOR="#000066">
+<FONT size=6>Heap of Fish</FONT><BR>
+<FONT size=3>A Simulation of a Garbage-Collected Heap</FONT><BR>
+</FONT>
+<!--END_MAIN_TITLES-->
+<!--BEGIN_TITLE_UNDERBAR-->
+<HR align="left" width="85%">
+<!--END_TITLE_UNDERBAR-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_TAG-->
+<TABLE CELLPADDING="3" CELLSPACING="0" BORDER="0" width="85%">
+<TR>
+<TD  valign="top" rowspan="100">
+<!--END_RIGHT_MARGIN_TABLE_TAG-->
+<!--BEGIN_MAIN_BODY-->
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="GettingLoaded.html">Previous</A>&nbsp;| 
+<A href="FibonacciForever.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+
+
+<p>The <i>Heap of Fish</i> applet, included below, demonstrates a compacting, mark and sweep, garbage-collected heap. This applet accompanies Chapter 9, &quot;The Garbage-Collected Heap,&quot; of <i>Inside the Java 2 Virtual Machine</i>.</p>
+
+<p><center><applet CODE="HeapOfFish.class" ARCHIVE="HeapOfFish.jar"
+CODEBASE="HeapOfFish" WIDTH=600 HEIGHT=370><b>For some reason, your browser won't let you view this way cool Java applet.</b></applet></center></p>
+
+<p>To facilitate compaction, this heap uses indirect handles to objects instead of direct references. It is called <i>Heap of Fish</i> because the only type of objects stored on the heap for this demonstration are fish objects, defined as follows:
+</p>
+<pre>
+// On CD-ROM in file gc/ex1/YellowFish.java
+class YellowFish {
+
+    YellowFish myFriend;
+}
+
+// On CD-ROM in file gc/ex1/BlueFish.java
+class BlueFish {
+
+    BlueFish myFriend;
+    YellowFish myLunch;
+}
+
+// On CD-ROM in file gc/ex1/RedFish.java
+class RedFish {
+
+    RedFish myFriend;
+    BlueFish myLunch;
+    YellowFish mySnack;
+}
+</pre>
+</p>
+<p>As you can see, there are three classes of fish: red, yellow, and blue. The red fish is the largest as it has three instance variables. The yellow fish, with only one instance variable, is the smallest fish. The blue fish has two instance variables and is therefore medium-sized. 
+</p>
+<p>The instance variables of fish objects are references to other fish objects. <code>BlueFish.myLunch</code>, for example, is a reference to a <code>YellowFish</code> object. In this implementation of a garbage-collected heap, a reference to an object occupies four bytes. Therefore, the size of the instance data of a <code>RedFish</code> object is twelve bytes, a <code>BlueFish</code> object is eight bytes, and a <code>YellowFish</code> object is four bytes.
+</p>
+<p><i>Heap of Fish</i> has five modes, which can be selected via radio buttons at the bottom left of the applet. When the applet starts it is in swim mode. Swim mode is just a gratuitous animation, vaguely reminiscent of the familiar image of a big fish about to eat a medium-sized fish, which is about to eat a small fish. The other four modes--allocate fish, assign references, garbage collect, and compact heap--allow you to interact with the heap. In the allocate fish mode, you can instantiate new fish objects. In the assign references mode, you can build a network of local variables and fish that refer to other fish. In garbage collect mode, a mark and sweep operation will free any unreferenced fish. The compact heap mode allows you to slide heap objects so that they are side by side at one end of the heap, leaving all free memory as one large contiguous block at the other end of the heap.
+</p>
+<p><b><font SIZE=+1>Allocate Fish
+<br></font></b>The allocate fish mode allows you to allocate new fish objects on the heap. In this mode you can see the two parts that make up the heap: the object pool and the handle pool. The object pool is a contiguous block of memory from which space is taken for new objects. It is structured as a series of memory blocks. Each memory block has a four-byte header that indicates the length of the memory block and whether or not it is free. The headers are shown in the applet as black horizontal lines in the object pool.
+</p>
+<p>The object pool in <i>Heap of Fish</i> is implemented as an array of <code>int</code>s. The first header is always at <code>objectPool[0]</code>. The object pool's series of memory blocks can be traversed by hopping from header to header. Each header gives the length of its memory block, which also reveals where the next header is going to be. The header of the next memory block will be the first <code>int</code> immediately following the current memory block.
+</p>
+<p>When a new object is allocated, the object pool is traversed until a memory block is encountered with enough space to accommodate the new object. Allocated objects in the object pool are shown as colored bars. <code>YellowFish</code> objects are shown in yellow, <code>BlueFish</code> in blue, and in <code>RedFish</code> red. Free memory blocks, those that currently contain no fish, are shown in white.
+</p>
+<p>The handle pool in <i>Heap of Fish</i> is implemented as an array of objects of a class named <code>ObjectHandle</code>. An <code>ObjectHandle</code> contains information about an object, including the vital index into the object pool array. The object pool index functions as a reference to the object's instance data in the object pool. The <code>ObjectHandle</code> also reveals information about the class of the fish object. As mentioned in Chapter 5, &quot;The Java Virtual Machine, &quot; every object on the heap must in some way be associated with its class information stored in the method area. In <i>Heap of Fish</i>, the <code>ObjectHandle</code> associates each allocated object with information such as its class--whether it is a <code>RedFish</code>, <code>BlueFish</code>, or <code>YellowFish</code>--and some data used in displaying the fish in the applet user interface.
+</p>
+<p>The handle pool exists to make it easier to defragment the object pool through compaction. References to objects, which can be stored in local variables of a stack or the instance variables of other objects, are not direct indexes into the object pool array. They are instead indexes into the handle pool array. When objects in the object pool are moved for compaction, only the corresponding <code>ObjectHandle</code> must be updated with the object's new object pool array index.
+</p>
+<p>Each handle in the handle pool that refers to a fish object is shown as a horizontal bar painted the same color as the fish to which it refers. A line connects each handle to its fish instance variables in the object pool. Those handles that are not currently in use are drawn in white.
+</p>
+<p><b><font SIZE=+1> Assign References
+<br></font></b>The assign references mode allows you to build a network of references between local variables and allocated fish objects. A reference is merely a local or instance variable that contains a valid object reference. There are three local variables which serve as the roots of garbage collection, one for each class of fish. If you do not link any fish to local variables, then all fish will be considered unreachable and will be freed by the garbage collector.
+</p>
+<p>The assign references mode has three sub-modes: move fish, link fish, and unlink fish. You can select the sub-mode via radio buttons at the bottom of the canvas upon which the fish appear. In move fish mode, you can click on a fish and drag it to a new position. You might want to do this to make your links more visible or just because you feel like rearranging fish in the sea.
+</p>
+<p>In link fish mode, you can click on a fish or local variable and drag a link to another fish. The fish or local variable you initially drag from will be assigned a reference to the fish you ultimately drop upon. A line will be shown connecting the two items. A line connecting two fish will be drawn between the nose of the fish with the reference to the tail of the referenced fish.
+</p>
+<p>Class <code>YellowFish</code> has only one instance variable, <code>myFriend</code>, which is a reference to a <code>YellowFish</code> object. Therefore, a yellow fish can only be linked to one other yellow fish. When you link two yellow fish, the <code>myFriend</code> variable of the &quot;dragged from&quot; fish will be assigned the reference to the &quot;dropped upon&quot; fish. If this action were implemented in Java code, it might look like:
+<pre>
+// Fish are allocated somewhere
+YellowFish draggedFromFish = new YellowFish();
+YellowFish droppedUponFish = new YellowFish();
+
+// Sometime later the assignment takes place
+draggedFromFish.myFriend = droppedUponFish;
+</pre>
+</p>
+<p>Class <code>BlueFish</code> has two instance variables, <code>BlueFish myFriend</code> and <code>YellowFish myLunch</code>. Therefore, a blue fish can be linked to one blue fish and one yellow fish. Class <code>RedFish</code> has three instance variables, <code>RedFish myFriend</code>, <code>BlueFish myLunch</code>, and <code>YellowFish mySnack</code>. Red fish can therefore link to one instance of each class of fish.
+</p>
+<p>In unlink fish mode, you can disconnect fish by moving the cursor over the line connecting two fish. When the cursor is over the line, the line will turn black. If you click a black line the reference will be set to <code>null</code> and the line will disappear.
+</p>
+<p><b><font SIZE=+1> Garbage Collect
+<br></font></b>The garbage collect mode allows you to drive the mark and sweep algorithm. The Step button at the bottom of the canvas takes you through the garbage collection process one step at a time. You can reset the garbage collector at any time by clicking the Reset button. However, once the garbage collector has swept, the freed fish are gone forever. No manner of frantic clicking of the Reset button will bring them back.
+</p>
+<p>The garbage collection process is divided into a mark phase and a sweep phase. During the mark phase, the fish objects on the heap are traversed depth-first starting from the local variables. During the sweep phase, all unmarked fish objects are freed.
+</p>
+<p>At the start of the mark phase, all local variables, fish, and links are shown in white. Each press of the Step button advances the depth-first traversal one more node. The current node of the traversal, either a local variable or a fish, is shown in magenta. As the garbage collector traverses down a branch, fish along the branch are changed from white to gray. Gray indicates the fish has been reached by the traversal, but there may yet be fish further down the branch that have not been reached. Once the terminal node of a branch is reached, the color of the terminal fish is changed to black and the traversal retreats back up the branch. Once all links below a fish have been marked black, that fish is marked black and the traversal returns back the way it came.
+</p>
+<p>At the end of the mark phase, all reachable fish are colored black and any unreachable fish are colored white. The sweep phase then frees the memory occupied by the white fish.
+</p>
+<p><b><font SIZE=+1>Compact Heap
+<br></font></b>The compact heap mode allows you to move one object at a time to one end of the object pool. Each press of the Slide button will move one object. You can see that only the object instance data in the object pool moves; the handle in the handle pool does not move.
+</p>
+<p>The <i>Heap of Fish</i> applet allows you to allocate new fish objects, link fish, garbage collect, and compact the heap. These activities can be done in any order as much as you please. By playing around with this applet you should be able to get a good idea how a mark and sweep garbage-collected heap works. There is some text at the bottom of the applet that should help you as you go along. Happy clicking.</p>
+
+<p><HR WIDTH=500></p>
+<p>
+Click here to view a page of links to the <a href="sourcecode.html#HeapOfFish">source code</a> of the <i>Heap of Fish</i> applet.
+</p>
+
+
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="GettingLoaded.html">Previous</A>&nbsp;| 
+<A href="FibonacciForever.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+<!--END_MAIN_BODY-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_CLOSE-->
+</TD>
+</TR>
+</TABLE>
+<!--END_RIGHT_MARGIN_TABLE_CLOSE-->
+<!--BEGIN_FOOTER_SEPARATOR-->
+<HR width="100%">
+<!--END_FOOTER_SEPARATOR-->
+<!--BEGIN_FOOTER-->
+<TABLE width="100%">
+<TR>
+<TD align="left">
+<FONT size="1" face="geneva, arial, sans-serif">
+<!--REG_COPYRIGHT_LINE--><A href="copyright.html">Copyright</A> &copy; 1996-1999 Bill Venners. All Rights Reserved.
+</FONT>
+</TD>
+</TR>
+</TABLE>
+<!--END_FOOTER-->
+</body>
+</html>

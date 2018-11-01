@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>Inside J2VM Interactive Illustrations - Book's Introduction</TITLE>
+<META NAME="description" content="Introduction to
+Inside the Java 2 Virtual Machine by Bill Venners.">
+<META NAME="keywords" content="Java Virtual Machine">
+<META NAME="author" content="Bill Venners">
+</HEAD>
+<!--BEGIN_ARTIMA_COLOR_SCHEME-->
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#000099" VLINK="#009999" ALINK="#CC0000">
+<!--END_ARTIMA_COLOR_SCHEME-->
+<!--BEGIN_FISH_HEADING--> 
+<CENTER>
+<IMG src="images/fishhead.gif" alt="Interactive Illustrations for Inside the 
+Java 2 Virtual Machine">
+</CENTER>
+<!--END_FISH_HEADING--> 
+<!--BEGIN_MAIN_TITLES-->
+<FONT face="arial, helvetica" COLOR="#000066">
+<FONT size=6>Introduction</FONT><BR>
+</FONT>
+<!--END_MAIN_TITLES-->
+<!--BEGIN_TITLE_UNDERBAR-->
+<HR align="left" width="85%">
+<!--END_TITLE_UNDERBAR-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_TAG-->
+<TABLE CELLPADDING="3" CELLSPACING="0" BORDER="0" width="85%">
+<TR>
+<TD  valign="top" rowspan="100">
+<!--END_RIGHT_MARGIN_TABLE_TAG-->
+<!--BEGIN_MAIN_BODY-->
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="acknowledge.html">Previous</A>&nbsp;| 
+<A href="EternalMath.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+
+<P>
+This book describes the Java virtual machine, the abstract computer on which all Java programs run, and several core Java APIs that have an intimate relationship to the virtual machine. Through a combination of tutorial explanations, working examples, reference material, and applets that interactively illustrate the concepts presented in the text, this book provides an in-depth, technical survey of Java as a technology.
+
+<p>The Java programming language seems poised to be the next popular language for mainstream commercial software development, the next step after C and C++. One of the fundamental reasons Java is a likely candidate for this role is that Java's architecture helps programmers deal with emerging hardware realities. Java has features that the shifting hardware environment is demanding, features that are made possible by the Java Virtual Machine.
+</p>
+<p>The evolution of programming languages has to a great extent been driven by changes in the hardware being programmed. As hardware has grown faster, cheaper, and more powerful, software has become larger and more complex. The migration from assembly languages to procedural languages, such as C, and to object oriented languages, such as C++, was largely driven by a need to manage ever greater complexity--complexity made possible by increasingly powerful hardware.
+</p>
+<p>Today the progression towards cheaper, faster, and more powerful hardware continues, as does the need for managing increasing software complexity. Building on C and C++, Java helps programmers deal with complexity by rendering impossible certain kinds of bugs that frequently plague C and C++ programmers. Java's inherent memory safety--garbage collection, lack of pointer arithmetic, run-time checks on the use of references--prevents most memory bugs from ever occurring in Java programs. Java's memory safety makes programmers more productive and helps them manage complexity.
+</p>
+<p>In addition, besides the ongoing increase in the capabilities of hardware, there is another fundamental shift taking place in the hardware environment--the network. As networks interconnect more and more computers and devices, new demands are being made on software. With the rise of the network, platform independence and security have become more important than they were in the past.
+</p>
+<p>The Java Virtual Machine is responsible for the memory safety, platform independence, and security features of the Java programming language. Although virtual machines have been around for a long time, prior to Java they hadn't quite entered the mainstream. But given today's emerging hardware realities, software developers needed a programming language with a virtual machine, and Sun hit the market window with Java.
+</p>
+<P>
+Thus, the Java virtual machine embodies the right software "stuff" for the coming years of computing. This book will help you get to know this virtual machine and some closely related Java APIs, and armed with this knowledge, you'll be better able to take maximum advantage of Java's unique architecture in your own endeavors.
+
+<p><b><font SIZE=+2>Who Should Read the Book
+<br></font></b>
+This book is aimed primarily at professional software developers and students who want to understand Java technology. I assume you are familiar, though not necessarily proficient, with the Java language. Reading this book should help you add a depth to your knowledge of Java programming. If you are one of the elite few who are actually writing Java compilers or creating implementations of the Java Virtual Machine, this book can serve as a companion to the Java Virtual Machine specification. Where the specification specifies, this book explains.
+</p>
+<p><b><font SIZE=+2>How to Use the Book
+<br></font></b>This book has five basic parts:
+</p>
+<p>1. An introduction to Java's architecture (Chapters 1 through 4)
+</p>
+<p>2. An in-depth, technical tutorial of Java internals (Chapters 5 through 20)
+</p>
+<p>3. A class file and instruction set reference (Chapter 6, Appendices A through C)
+</p>
+<p>4. Interactive illustrations and example source code (On the CD-ROM)
+</p>
+<p>5. <i>Java Virtual Machine Resources Page</i> (<a href=" http://www.artima.com/insidejvm/resources/index.html"><code>http://www.artima.com/insidejvm/resources/index.html</code></a>)
+
+<p><b><font SIZE=+1>An Introduction to Java's Architecture
+<br></font></b>
+Chapters 1 through 4 (Part I of this book) give an overview of Java's architecture, including the motivations behind--and the implications of--Java's architectural design. These chapters show how the Java Virtual Machine relates to the other components of Java's architecture: the class file, API, and language. If you want a basic understanding of Java as a technology, consult these chapters. Here are some specific points of interest from this portion of the book:
+</p>
+<UL>
+<LI> For an overview of Java's architecture and a discussion of its inherent tradeoffs, see Chapter 1, "Introduction to Java's Architecture."
+
+<LI> For a discussion of what "platform independence" really means, how Java's architecture supports it, and seven steps to take to create a platform independent Java program, see Chapter 2, "Platform Independence."
+
+<LI>For a description of the security model built into Java's core architecture, including an elaborate working example that demonstrates the fine-grained access control made possible by the 1.2 security framework, see Chapter 3, "Security."
+
+<LI>For a discussion of the new paradigm of network-mobile software, see Chapter 4, "Network Mobility."
+</UL>
+
+<p><b><font SIZE=+1>A Tutorial of Java Internals
+<br></font></b>
+Chapters 5 through 20 (Part II of this book) give an in-depth technical description of the inner workings of the Java virtual machine and related core Java APIs. These chapters will help you understand how Java programs actually work. All the material in Part II is presented in a tutorial manner, with lots of examples. Here are some specific points of interest from this portion of the book:
+
+<UL>
+<LI>For a comprehensive overview of the inner workings of the Java Virtual Machine, see Chapter 5, "The Java Virtual Machine."
+
+<LI>If you are parsing, generating, or simply peering into Java class files, see Chapter 6, "The Java Class File," for a complete tutorial and reference on the class file format.
+
+<LI>For a discussion of the lifetime of a type inside the Java Virtual Machine, including the circumstances in which types can be unloaded, see Chapter 7, "The Lifetime of a Type."
+
+<LI>For a thorough explanation of Java's linking model, including a tutorial and examples on using <CODE>forName()</CODE> and class loaders to dynamically extend Java applications with new types at runtime, see Chapter 8, "The Linking Model.
+
+<LI>For a discussion of garbage collection and finalization; an explanation of soft, weak, and phantom references; and suggestions on how to use finalizers, see Chapter 9, "Garbage Collection."
+
+<LI>For a tutorial on the Java Virtual Machine's instruction set, read Chapters 10 through 20.
+
+<LI>For an explanation of monitors and how you can use them to write thread-safe Java code, see Chapter 20, "Thread Synchronization."
+</UL>
+
+<p><b><font SIZE=+1>A Class File and Instruction Set Reference
+<br></font></b>
+In addition to being a tutorial on the Java class file, Chapter 6, "The Java Class File," serves as a complete reference of the class file format. Similarly, Chapters 10 through 20 form a tutorial of the Java Virtual Machine's instruction set, and Appendices A through C serve as a complete reference of the instruction set. If you need to look something up, check out these chapters and the appendices.
+<p><b><font SIZE=+1>Interactive Illustrations and Example Source Code
+<br></font></b>
+For most of this book's chapters, material associated with the chapter--such as example code or simulation applets--appears on the CD-ROM.
+</p>
+<p>The <code>applets</code> directory of the CD-ROM contains a mini-web site, called the <i>Interactive Illustrations</i>, that includes 15 Java applets that illustrate the concepts presented in the text. These "interactive illustrations" form an integral part of this book. Eleven of the applets simulate the Java Virtual Machine executing bytecodes. The other applets illustrate garbage collection, two's-complement and IEEE 754 floating point numbers, and the loading of class files. The applets can be viewed on any platform by any Java-capable browser. The source code for the simulation applets is also included on the CD-ROM.
+</p>
+<p>The copyright notice accompanying the .html, .gif, .java, and .class files for the <i>Interactive Illustrations</i>enables you to post the web site on any network, including the internet, providing you adhere to a few simple rules. For example, you must post the web site in its entirety, you can't make any changes to it, and you can't charge people to look at it. The full text of the copyright notice is given later in this introduction.
+
+
+<p>All the example source code shown in this book appears on the CD-ROM in both source and compiled (class files) form. If some example code in the text strikes you as interesting (or dubious), you can try it out for yourself.
+
+<p>Most of the example code is illustrative and not likely to be of much practical use besides helping you to understand Java. Nevertheless, you are free to cut and paste from the example code, use it in your own programs, and distribute it in binary (such as Java class file) form. The full text of the copyright notice for the example source code is given later in this introduction.
+
+<p><b><font SIZE=+1>The Java Virtual Machine Resources Page
+<br></font></b>
+To help you find more information and keep abreast of changes, I maintain
+several pages at <CODE>artima.com</CODE> with links to further reading about
+the material presented in this book. The main URL of for these pages of
+links is the <EM>Java Virtual Machine Resources Page</EM>, at:
+<A href="http://www.artima.com/insidejvm/resources/index.html"><CODE>http://www.artima.com/insidejvm/resources/</CODE></A>.
+
+
+<a name="ExampleSourceCopyright"></a><p><b><font SIZE=+2>Copyright Notices
+<br></font></b>Here's the text of the copyright notice that appears in each of the example source files (anything on the CD-ROM that isn't in either the <code>applets</code> or <code>jdk</code> directories):
+</p>
+<ul><font SIZE=-1>
+<p>Copyright &copy; 1997-1999 Bill Venners. All rights reserved.
+</p>
+
+<P>
+Source code file from the book "Inside the Java 2 Virtual Machine," by Bill Venners, published by McGraw-Hill, 1999, ISBN: 0-07-135093-4. 
+
+
+<p>This source file may not be copied, modified, or redistributed EXCEPT as allowed by the following statements: You may freely use this file for your own work, including modifications and distribution in compiled (class files, native executable, etc.) form only. You may not copy and distribute this file. You may not remove this copyright notice. You may not distribute modified versions of this source file. You may not use this file in printed media without the express permission of Bill Venners.
+</p>
+<p>BILL VENNERS MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THIS SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR PARTICULAR PURPOSE, OR NON-INFRINGEMENT.  BILL VENNERS SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY A LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.</font></ul>
+</p>
+<p>The HTML pages (including the applets) and Java source files for the <i>Interactive Illustrations</i> (stored in the <code>applets</code> directory of the CD-ROM) all bear the following copyright notice:
+<p>
+<ul><font SIZE=-1>
+All the web pages and Java applets delivered in the <code>applets</code> directory of the CD-ROM, consisting of ".html," ".gif," ".class," and ".java" files, are copyrighted &copy; 1996, 1997 by Bill Venners, and all rights are reserved.  This material may be copied and placed on any commercial or non-commercial web server on any network (including the internet) provided that the following guidelines are followed:</p>
+<p>a.	All the web pages and Java Applets (".html," ".gif," ".class," and ".java" files), including the source code, that are delivered in the <code>applets</code> directory of the CD-ROM that accompanies the book must be published together on the same web site.  </p>
+<p>b.	All the web pages and Java Applets (".html," ".gif," ".class," and ".java" files) must be published "as is" and may not be altered in any way.
+</p>
+<p>c.	All use and access to this web site must be free, and no fees can be charged to view these materials, unless express written permission is obtained from Bill Venners.</p>
+<p>d.	The web pages and Java Applets may not be distributed on any media, other than a web server on a network, and may not accompany any book or publication.
+</p>
+<p>BILL VENNERS MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR PARTICULAR PURPOSE, OR NON-INFRINGEMENT.  BILL VENNERS SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY A LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+</p>
+</font></ul>
+<p><b><font SIZE=+2>Java Versions 
+<br></font></b>
+
+The text of this book is current to the Java 2 SDK version 1.2 and the second edition of the Java virtual machine specification. Although little of the material covered by this book changed between 1.0 and 1.1, a great deal changed between 1.1 and 1.2. Moreover, the second edition of the Java virtual machine specification clarified many issues contained in the first edition of the specification, as well as making a few amendments.
+
+<P>
+One change that occurred in JDK 1.0.2, a change of the semantics of the <CODE>invokespecial</CODE> instruction, is described in Chapter 19, "Method Invocation," and in Appendix A. Two attributes added to the class file format in 1.1 to support inner classes, and an attribute added to support the <CODE>@deprecated</CODE>
+<CODE>javadoc</CODE> tag, are described in Chapter 6, "The Java Class File." Also, the API of the <CODE>ClassLoader</CODE> class was extended in 1.1. Chapter 8, "The Linking Model," demonstrates the use of the 1.1 version of this API.
+
+
+<P>
+Several of the Java APIs described in this book underwent significant changes between version 1.1, which was covered by the first edition of this book, and version 1.2, which is covered by this second edition. Perhaps the most significant API changes that affected this book are the many API changes that support the 1.2 security model. All the components of
+the 1.2 security model -- the basic sandbox, code signing and authentication, policies and policy files, permissions, code sources, protection domains, and the stack inspection algorithms of the access controller -- are described in detail in Chapter 3, "Security." The <CODE>strictfp</CODE> keyword added to the Java language in 1.2, and the corresponding access flag added to the Java class file format, are explained in Chapter 6, "The Java Class File." The class loader parent-delegation model introduced in 1.2, and several new methods introduced in 1.2 to classes <CODE>java.lang.Class</CODE> and <CODE>java.lang.ClassLoader</CODE>, are described in Chapter 
+8, the "Linking Model." Soft, weak, and phantom references, which were added as the <CODE>java.lang.ref</CODE> package of the 1.2 Java API, are described in Chapter 9, "Garbage Collection."
+<P>
+Aside from several new APIs introduced to Java in version 1.2, this book incorporates the many clarifications and amendments to the original Java virtual machine specification that were printed in the second edition of the specification. For example, the second edition of the Java virtual machine specification documented a new set of loading constraints that ensure type safe linking in the presence of multiple class loaders. These loading
+constraints are described, and demonstrated by a code example, in Chapter 8, "The Linking Model." The revised floating point rules for Java virtual machines given in the second edition of the specification are explained in Chapter 14, "Floating Point Arithmetic." This second edition of this book also incorporates many corrections and clarifications to the specification of class file version numbers, method invocation, and the loading, linking, and initialization of types. 
+
+<P>
+The bytecode examples shown throughout this book were generated by the <CODE>javac</CODE> compiler from various incarnations of Sun's JDK 1.1. Keep in mind that there is more than one way to compile a class. Different compilers, even different versions of the same compiler, could generate different results.
+
+<P>
+The source code of the simulation applets (the interactive illustrations) adhere to Java version 1.0. As I discuss in Chapter 2, "Platform Independence," one of the realities of Java's platform independence promise is that you have to decide when a version of the Java Platform has been distributed widely enough to make it worthwhile to target that version.
+Although I had a 1.1 version of the Java virtual machine simulator applets working back in 1997, when it came time to deliver the CD-ROM material for the first edition of this book to the publisher, I opted to drop the code back down to 1.0. At the time, neither Netscape Communicator or Microsoft Internet Explorer fully supported 1.1. Since these applets are not example source, but are software products in their own right, I felt it didn't make sense to release them in 1.1. As a consequence, the applets will work in browsers that support either 1.0, 1.1, or 1.2, and hopefully many versions into the future.
+
+<p><b><font SIZE=+2>Request for Comments
+<br></font></b>
+If you have a suggestion on how to improve this book or wish to report a bug or error, please visit <a href="http://www.artima.com/insidejvm/feedback.html">
+<code>http://www.artima.com/insidejvm/feedback.html</code></a>. 
+This page will give you instructions on how to submit your comment.
+</p>
+
+
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="acknowledge.html">Previous</A>&nbsp;| 
+<A href="EternalMath.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+<!--END_MAIN_BODY-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_CLOSE-->
+</TD>
+</TR>
+</TABLE>
+<!--END_RIGHT_MARGIN_TABLE_CLOSE-->
+<!--BEGIN_FOOTER_SEPARATOR-->
+<HR width="100%">
+<!--END_FOOTER_SEPARATOR-->
+<!--BEGIN_FOOTER-->
+<TABLE width="100%">
+<TR>
+<TD align="left">
+<FONT size="1" face="geneva, arial, sans-serif">
+<!--REG_COPYRIGHT_LINE--><A href="copyright.html">Copyright</A> &copy; 1996-1999 Bill Venners. All Rights Reserved.
+</FONT>
+</TD>
+</TR>
+</TABLE>
+<!--END_FOOTER-->
+</body>
+</html>

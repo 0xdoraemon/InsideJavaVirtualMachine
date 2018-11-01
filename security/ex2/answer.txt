@@ -1,0 +1,5 @@
+Complexity threatens security to a significant extent. The more
+complicated a security infrastructure becomes, the more likely
+parties responsible for configuring security will either make
+mistakes that open up security holes or avoid using the
+security infrastructure altogether.

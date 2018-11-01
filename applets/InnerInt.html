@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>Inside J2VM Interactive Illustrations - Inner Int</TITLE>
+<META NAME="description" content="Inner Int (Java applet) - A
+Java int reveals its inner nature.">
+<META NAME="keywords" content="Java Virtual Machine, twos complement
+arithmetic, Java int">
+<META NAME="author" content="Bill Venners">
+</HEAD>
+<!--BEGIN_ARTIMA_COLOR_SCHEME-->
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#000099" VLINK="#009999" ALINK="#CC0000">
+<!--END_ARTIMA_COLOR_SCHEME-->
+<!--BEGIN_FISH_HEADING--> 
+<CENTER>
+<IMG src="images/fishhead.gif" alt="Interactive Illustrations for Inside the
+Java 2 Virtual Machine">
+</CENTER>
+<!--END_FISH_HEADING--> 
+<!--BEGIN_MAIN_TITLES-->
+<FONT face="arial, helvetica" COLOR="#000066">
+<FONT size=6>Inner Int</FONT><BR>
+<FONT size=3>An <CODE>int</CODE> Reveals Its Inner Nature</FONT><BR>
+</FONT>
+<!--END_MAIN_TITLES-->
+<!--BEGIN_TITLE_UNDERBAR-->
+<HR align="left" width="85%">
+<!--END_TITLE_UNDERBAR-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_TAG-->
+<TABLE CELLPADDING="3" CELLSPACING="0" BORDER="0" width="85%">
+<TR>
+<TD  valign="top" rowspan="100">
+<!--END_RIGHT_MARGIN_TABLE_TAG-->
+<!--BEGIN_MAIN_BODY-->
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="ConversionDiversion.html">Previous</A>&nbsp;| 
+<A href="PrimeTime.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+
+<p>The <i>Inner Int</i> applet, included below, lets you experiment with the two's-complement format of integers in the Java virtual machine. This applet accompanies Chapter 12, &quot;Integer Arithmetic,&quot; of <i>Inside the Java 2 Virtual Machine</i>.</p>
+
+<center><p><applet CODE="InnerInt.class" ARCHIVE="InnerInt.jar"
+CODEBASE="InnerInt" WIDTH=400 HEIGHT=125><b>For some reason, your browser won't let you view this way cool Java applet.</b></applet></p></center>
+
+<p>A few key-press sequences that illustrate interesting characteristics of two's-complement numbers are given below:
+</p>
+
+<p><b><font SIZE=+1>After Max Comes Min
+<br></font></b>Try this key-press sequence:
+<pre>
+Max
+++, --, ++, --, ...
+</pre>
+<p>This key-press sequence yields overflow when you press either of the <code>++</code> or <code>--</code> buttons. Note that one more than Max is Min, and one less than Min is Max.</p>
+
+<p><b><font SIZE=+1>Min Magnitude Greater Than Max
+<br></font></b>Try this key-press sequence:
+<pre>
+Min
+*=-1, *=-1, *=-1,...
+</pre>
+<p>Because the magnitude of the smallest (negative) <code>int</code> is one greater than the magnitude of the largest (positive) <code>int</code>, multiplying the smallest <code>int</code> by -1 yields an overflow. When you press the <code>*=-1</code> button, the value remains at Min.</p>
+
+<p><HR WIDTH=500></p>
+<p>
+Click here to view a page of links to the <a href="sourcecode.html#InnerInt">source code</a> of the <i>Inner Int</i> applet.
+</p>
+
+
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="ConversionDiversion.html">Previous</A>&nbsp;| 
+<A href="PrimeTime.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+<!--END_MAIN_BODY-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_CLOSE-->
+</TD>
+</TR>
+</TABLE>
+<!--END_RIGHT_MARGIN_TABLE_CLOSE-->
+<!--BEGIN_FOOTER_SEPARATOR-->
+<HR width="100%">
+<!--END_FOOTER_SEPARATOR-->
+<!--BEGIN_FOOTER-->
+<TABLE width="100%">
+<TR>
+<TD align="left">
+<FONT size="1" face="geneva, arial, sans-serif">
+<!--REG_COPYRIGHT_LINE--><A href="copyright.html">Copyright</A> &copy; 1996-1999 Bill Venners. All Rights Reserved.
+</FONT>
+</TD>
+</TR>
+</TABLE>
+<!--END_FOOTER-->
+</body>
+</html>

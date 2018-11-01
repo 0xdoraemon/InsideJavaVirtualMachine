@@ -1,0 +1,641 @@
+Step 1. Magic Number
+
+hex bytes		name
+---------		----
+CAFEBABE  		magic
+
+First the Java Virtual Machine (JVM) must make sure that the class
+file starts with the proper magic number. In this case the JVM will
+be happy because it will find the CafeBabe magic right where it's
+supposed to be.
+
+Note that, because all multi-byte values are stored in the class
+file in big-endian order, the first byte of every class file is 0xCA.
+****
+Step 2. Version Numbers
+
+hex		dec	name
+---		---	----
+0003  		3	minor_version
+002D  		45	major_version
+
+Next, the JVM must make sure that it recognizes and fully understands
+the format of the class file being loaded. If either the major or
+minor version number is not among the version numbers for which
+this JVM was implemented, the JVM must reject the class file. In this
+case, the JVM will be relieved to find that the file has major
+version 45 and minor version 3, of which it has intimate knowledge.
+****
+Step 3. Constant Pool Count
+
+0011        17        constant_pool_count
+
+The next two bytes make up an unsigned short integer that indicates
+the number of entries in the constant pool. In this case the
+constant pool will have 17 entries, but because the zeroeth entry
+doesn't appear in the class file, the JVM will expect to find
+entries 1 through 16 next in the stream.
+**
+Step 4. constant_pool[1]
+
+07  		7	tag
+0007  		7	name_index
+
+Each constant pool entry contains a table whose type is indicated
+by the first byte of the entry, the tag.
+
+The first constant pool entry is a CONSTANT_Class_info table. The JVM
+knows this because it finds a 7, which means CONSTANT_Class, in the
+tag byte position. Aside from the tag, the CONSTANT_Class_info table
+has only a name_index, which in this case is 7. This is an index into
+the constant pool. The JVM doesn't know it yet, because it hasn't
+read in the 7th entry of the constant pool, but the 7th entry will
+be the string "java/lang/Object", the name of the superclass of this
+class. Because class Act doesn't explicitly descend from any other
+class, it by default descends from class Object.
+
+Note that this is the first constant pool entry and that it already
+has index 1. constant_pool[0] doesn't appear in the class file.
+***
+Step 5. constant_pool[2]
+
+07  		7	tag
+0010		16	name_index
+
+The 2nd constant pool entry is another CONSTANT_Class_info table. The
+JVM knows this because it again finds a 7, which still means
+CONSTANT_Class, in the tag byte position. The name_index here,
+however, is 16. constant_pool[16] will be the string "Act", although
+once again the JVM doesn't know this yet because it hasn't read that
+far into the constant pool. At this point the JVM only knows that
+when it does get around to the 16th constant pool entry, that entry
+will contain the name of the class that is represented by the
+CONSTANT_Class_info table occupying constant_pool[2].
+
+constant_pool[2] therefore represents the "this" class, class Act,
+which this class file defines.
+***
+Step 6. constant_pool[3]
+
+0A  		10	tag
+0002  		1	class_index
+0004  		4	name_and_type_index
+
+constant_pool[3] contains a CONSTANT_Methodref_info table, indicated
+by the tag of 10, which means CONSTANT_Methodref. A
+CONSTANT_Methodref_info table represents a method and records its
+name, type, and the class to which it belongs. The first two bytes
+after the tag, the class_index, form an index into the constant pool,
+in this case a 2. constant_pool[2] represents class Act, so this
+method is declared in Act.
+
+The next two bytes make up the name_and_type_index, which is an index
+into the constant pool pointing to a CONSTANT_NameAndType table. In
+this case name_and_type_index is 4 and constant_pool[4] defines
+"void <init>()". Because class Act doesn't declare its own
+constructor, the javac compiler generates a default constructor,
+Act(). Act() becomes the instance initialization method <init>() in
+the class file. Act's <init>() method just calls <init>() in
+superclass Object.
+*****
+Step 7. constant_pool[4]
+
+0C  		12	tag
+0006  		6	name_index
+0005  		5	descriptor_index
+
+constant_pool[4] is a CONSTANT_NameAndType_info table identified by
+its initial tag of 12, which stands for CONSTANT_NameAndType.
+Following the tag byte is the name_index, which is 6.
+constant_pool[6] will be the string "<init>". Next is the
+descriptor_index, which is 5. constant_pool[5] will be the string
+"()V".
+
+"<init>" is the name of the method being described. "()V" is the
+type. In plain Java it would look like "void <init>()". "()V" is a
+method descriptor. The "()" indicates that there are no arguments to
+"<init>". The "V" indicates the return type of "<init>" is void.
+*****
+Step 8. constant_pool[5]
+
+01    		1	tag
+0003		3	length
+282956		"()V"	bytes[length]
+
+constant_pool[5] is a CONSTANT_Utf8_info table that contains the
+string "()V", a method descriptor that translates to a method that
+takes no arguments and returns void.
+
+CONSTANT_Utf8 is how strings are encoded in the constant pool. The
+UTF-8 format allows any 16 bit character to be represented by either
+1, 2, or 3 bytes. The characters '\u0001' to '\u007F' occupy only one
+byte. Other characters require 2 or 3 bytes, however, these
+characters are expected to appear less frequently than the characters
+that require only 1 byte. By this means the full 16 bit Unicode
+character set can be supported by the class file without using as
+much space as would likely be used by just making each character 16
+bits long.
+
+The tag byte of a CONSTANT_Utf8_info table is followed by a length,
+in this case 13, which indicates the length in bytes of the UTF-8
+format string that follows. In this case the string spells out
+"ConstantValue". This string is used internally by the class file in
+a manner that will be described later in the file loading simulation.
+
+There is no trailing null character in a CONSTANT_Utf8_info bytes
+item, as that would unnecessarily waste bandwidth.
+******
+Step 9. constant_pool[6]
+
+01    		1		tag
+0006		6		length
+3C696E69743E	"<init>"		bytes[length]
+
+constant_pool[6] is a CONSTANT_Utf8_info table that contains the
+string "<init>", the name of a method in the superclass, Object.
+*********
+Step 10. constant_pool[7]
+
+01		1		tag
+0003		3		length
+416374		"Act"		bytes[length]
+
+constant_pool[7] is a CONSTANT_Utf8_info table that contains the
+string "Act". This is the name of the class that is being defined by
+this file.
+******
+Step 11. constant_pool[8]
+
+01    			1		tag
+000B			11		length
+736E697065742E6A617661	"Act.java"	bytes[length]
+
+constant_pool[8] is a CONSTANT_Utf8_info table that contains the
+string "Act.java", the name of the source file in which class Act was
+defined. This string is referred to by a SourceFile attribute.
+***********
+Step 12. constant_pool[9]
+
+01		1		tag
+0004		4		length
+436F6465		"Code"		bytes[length]
+
+constant_pool[9] is a CONSTANT_Utf8_info table that contains the
+string "Code", an attribute name.
+*******
+Step 13. constant_pool[10]
+
+01  				1			tag
+000D  				13			length
+436F6E7374616E7456616C7565 		"ConstantValue"		bytes[length]
+
+constant_pool[10] is a CONSTANT_Utf8_info table that contains the
+string "ConstantValue", an attribute name.
+****************
+Step 14. constant_pool[11]
+
+01    			1		tag
+000A			10		length
+457863657074696F6E73	"Exceptions"	bytes[length]
+
+constant_pool[11] is a CONSTANT_Utf8_info table that contains the string
+"Exceptions", an attribute name.
+*************
+Step 15. constant_pool[12]
+
+01    				1			tag
+000F				15			length
+4C696E654E756D6265725461626C65	"LineNumberTable"		bytes[length]
+
+constant_pool[12] is a CONSTANT_Utf8_info table that contains the string
+"LineNumberTable", an attribute name.
+******************
+Step 16. constant_pool[13]
+
+01				1			tag
+000E				14			length
+4C6F63616C5661726961626C6573	"LocalVariables"		bytes[length]
+
+constant_pool[13] is a CONSTANT_Utf8_info table that contains the string
+"LocalVariables", an attribute name.
+*****************
+Step 17. constant_pool[14]
+
+01			1		tag
+000A			10		length
+536F7572636546696C65	"SourceFile"	bytes[length] 
+
+constant_pool[14] is a CONSTANT_Utf8_info table that contains the string
+"SourceFile", an attribute name.
+*************
+Step 18. constant_pool[15]
+
+01  				1			tag
+000D				13			length
+646F4D617468466F7265766572		"doMathForever"		bytes[length]
+
+constant_pool[15] is a CONSTANT_Utf8_info table that contains the string
+"doMathForever". This is the name of the lone method defined in class Act.
+****************
+Step 19. constant_pool[16]
+
+01					1		tag
+0010					16		length
+6A6176612F6C616E672F4F626A656374		"java/lang/Object"	bytes[length] 
+
+constant_pool[16] is a CONSTANT_Utf8_info table that contains the
+string "java/lang/Object". This is the internal form of fully
+qualified class name of "java.lang.Object". This string is a symbolic
+reference to class Act's superclass.
+*******************
+Step 20. Access Flags
+
+0020			access_flags
+
+The access flags are a two byte unsigned integer that is composed by
+bitwise oring bitmasks for individual flags that represent modifiers
+of the class or interface defined by this file. For example,
+ACC_PUBLIC is 0x0001 and ACC_FINAL is 0x0010. A class declared to be
+both public and final would have its access flags set to 0x0011, or
+(ACC_PUBLIC | ACC_FINAL).
+
+Classes that are declared with these modifiers would have the
+appropriate bitmasks from ACC_PUBLIC, ACC_FINAL, and ACC_ABSTRACT
+ored together to make the resultant access_flags. Also, if a class
+file defines an interface and not class, then an ACC_INTERFACE bit
+is set in access_flags. This is how the JVM knows whether a class or
+an interface is being defined by the file.
+
+In this case only the ACC_SUPER flag is set. No other flag is set
+because the class being defined, class Act, was not declared to be
+public, final, or abstract. ACC_SUPER indicates the class file was
+generated by a compiler (in this case, the 1.1 javac from Sun) that
+knows about the revised invokespecial semantics.
+**
+Step 21. This Class and Super Class
+
+0001		1	this_class
+0002		2	super_class
+
+this_class is a two byte unsigned integer index into the constant
+pool, where constant_pool[this_class] is a CONSTANT_Class_info table
+representing the class defined by this file. In this case it is the
+CONSTANT_Class_info table for class Act.
+
+super_class is a two byte unsigned integer index into the constant
+pool, where constant_pool[super_class] is a CONSTANT_Class_info table
+representing the superclass from which the class defined by this file
+decends. In our case it is the CONSTANT_Class_info table for class
+Object.
+****
+Step 22. Interfaces Count and Fields Count
+
+0000		0	interfaces_count
+0000		0	fields_count
+
+interfaces_count is a two byte unsigned integer that indicates the
+number of interfaces implemented by this class. Because class Act
+implements no interfaces, interfaces_count is zero.
+
+fields_count is a two byte unsigned integer that indicates the number
+of fields (class or instance variables) declared by this class.
+Because class Act has no class or instance variables, fields_count
+is zero.
+****
+Step 23. Methods Count
+
+0002		2	methods_count
+
+methods_count is a two byte unsigned integer indicating the number of
+methods defined by this class. The count does not include any methods
+inherited from superclasses, only those methods explicitly defined in
+this class.
+
+In this case methods_count is 2 because doMathForever() is defined in
+the source file and the instance initialization method, <init>(), is
+generated by the compiler.
+
+The JVM will expect an array of 2 method_info tables to immediately
+follow this methods_count.
+**
+Step 24. doMathForever()'s Access Flags, Name Index, and Descriptor Index
+
+0009			access_flags
+000F		15	name_index
+0005		5	descriptor_index
+
+This is the beginning of the array of method_info tables that
+immediately follows the methods_count. The first method_info table,
+methods[0], gives information about the doMathForever() method. The
+second method_info table, methods[1], gives information about the
+Act() constructor.
+
+The first three parts of methods[0] are shown here. access_flags
+gives the modifiers with which the method was declared. In this case
+access_flags is a 0x0009, which equates to (ACC_PUBLIC | ACC_STATIC).
+If you look back at the source code, the doMathForever() method is
+indeed declared public and static.
+
+The name_index gives the constant pool entry where the name of the
+method is stored. In this case name_index is 15 and constant_pool[15]
+is indeed the UTF-8 string "doMathForever".
+
+The descriptor_index gives the constant pool entry where the
+descriptor of this method is stored. In this case descriptor_index is
+5 and constant_pool[5] is the string "()V". This descriptor string
+indicates that the doMathForever()method takes no arguments and
+returns void.
+******
+Step 25. doMathForever() Attributes
+
+0001		1	attributes_count
+
+methods[0].attributes[0]
+0009		9	attribute_name_index
+00000030		48	length
+
+Following the descriptor_index of a method is its attributes_count.
+In this case there is only 1 attribute for the doMathForever()
+method.
+
+The list of attributes follows the attributes_count. Here there is
+only one attribute, attributes[0]. The first two bytes of the
+attribute are the attribute_name_index. The attribute_name_index is
+the index of the constant pool entry that contains the name of the
+attribute. In this case attribute_name_index is 9 and
+constant_pool[9] is "Code". Therefore this is the doMathForever()'s
+Code attribute, which will contain, among a few other items, the
+actual bytecode sequence for the method.
+
+The length word indicates the number of bytes in the attribute, in
+this case 48 bytes. This means 48 bytes will follow this length word.
+********
+Step 26. doMathForever() Max Stack and Max Locals
+
+0002		2	max_stack
+0001		1	max_locals
+
+Max stack is a two byte unsigned integer that indicates the maximum
+number of words on the JVM's operand stack at any point in the
+method. Max locals is a two byte unsigned integer that indicates the
+number of local variable words used by the method.
+
+In this case, max_stack is 2. If you look back at the Eternal Math
+applet from Chapter 5, "The Java Virtual Machine," and watch the
+operand stack as the JVM executes the doMathForever() bytecodes, you
+will see that the operand stack never has more than two words in it.
+
+The max_locals is 1 in this case, because doMathForever() takes no
+arguments and has only one variable, i. If you look back at the
+Eternal Math applet you can see that there is only one word in the
+local variables section of doMathForever()'s stack frame, the
+integer i.
+****
+Step 27. doMathForever() Bytecodes and Exception Table
+
+0000000C				12	code_length
+033B8400011A05683BA7FFF9			code[code_length]
+0000				0	exception_table_length
+
+code_length indicates the number of bytes in the bytecode sequence
+for this method. The actual bytecodes follow the code_length. In this
+case the doMathForever() method bytecode sequence fills 12 bytes. If
+you look back to the Eternal Math applet from Chapter 5, "The Java
+Virtual Machine," you will see that these are the bytecodes being
+executed in that simulation.
+
+addr	instruction		mnemonic
+--	-----------		--------
+0	03		iconst_0
+1	3B		istore_0
+2	840001		iinc 0 1
+5	1A		iload_0
+6	05		iconst_2
+7	68		imul
+8	3B		istore_0
+9	A7FFF9		goto 2
+
+exception_table_length indicates the number of exceptions that are
+caught in the method. In the case of doMathForever(),
+exception_table_length is zero because no exceptions are explicitly
+caught in this method. For methods that do catch exceptions, an array
+of exception handler tables immediately follows the
+exception_table_length.
+******************
+Step 28. Attributes of the doMathForever() Code Attribute
+
+0001		1	attributes_count
+000C		12	attribute_name_index
+00000012		18	attribute_length
+0004		4	line_number_table_length
+
+The doMathForever() "Code" attribute itself has a "sub-attribute"
+section. I.e., the attributes listed here belong to the "Code"
+attribute of doMathForever().
+
+attributes_count is 1, which indicates there is only one attribute
+belonging to the "Code" attribute of doMathForever().
+attribute_name_index is a 12, and constant_pool[12] is the string
+"LineNumberTable". This is the name of the attribute.
+attribute_length gives the length of attribute "LineNumberTable" as
+18. The line_number_table_length is 4, meaning that there will be 4
+line_number_table entries immediately following.
+
+If you look back at the snippet of Java code that defines
+doMathForever() you'll see that there are only 4 lines of code that
+get translated to bytecodes:
+
+line 5: i = 0;
+line 6: while (true) {
+line 7:     i += 1;
+line 8:     i *= 2;
+
+These four lines will be matched up with the corresponding bytecodes
+in the line_number_table that follows.
+**********
+Step 29. Line Number Table for doMathForever()
+
+hex		dec	name		what it refers to
+---		---	----		-------------------
+line_number_table[0]
+0000		0	start_pc		iconst_0, istore_0
+0005		5	line_number	int i = 0;
+
+line_number_table[1]
+0002		2	start_pc		iinc 0 1
+0007		7	line_number	i += 1
+
+line_number_table[2]
+0005		5	start_pc		iload_0, iconst_2, imul, istore_0
+0008		8	line_number	i *= 2
+
+line_number_table[3]
+0009		9	start_pc		goto 2
+0006		6	line_number	while (true) {
+
+The above table associates each line in the doMathForever() code with
+its corresponding bytecode instruction. The start_pc value of each
+table entry indicates the offset inside the doMathForever() bytecode
+sequence of an instruction. The line_number value of each table entry
+is the line number of the source file that corresponds to that
+instruction.
+
+The line number information is of general utility. It is useful to
+debuggers, for example. It also allows the line number at which an
+exception is thrown to be written to the Java console.
+
+This is the last of the information in the class file about the
+doMathForever() method. Next will come the information about the
+other method of this class, the instance initialization method,
+<init>().
+****************
+Step 30. <init>()'s Access Flags, Name Index, and Descriptor Index
+
+methods[1]
+0000			access_flags
+0006		6	name_index
+0005		5	descriptor_index
+
+This is the beginning of the second method_info table, methods[1],
+which gives information about the <init>() method.
+
+The first three parts of methods[1] are shown here. access_flags
+gives the modifiers with which the method was declared. In this case
+access_flags is a 0x0000, which means it's neither public, private,
+protected, static, final, synchronized, native, or abstract. It's
+just a plain old method. 
+
+The name_index indicates the constant pool entry where the name of
+the method is stored. In this case name_index is 6 and
+constant_pool[6] is indeed the UTF-8 string "<init>". "<init>" is the
+name of the instance initialization method generated for the default
+constructor, Act().
+
+The descriptor_index indicates the constant pool entry where the
+descriptor of this method is stored. In this case descriptor_index is
+5 and constant_pool[5] is the string "()V". This descriptor string
+indicates that <init>() is a method that takes no arguments and
+returns void.
+******
+Step 31. <init>() Attributes
+
+0001		1	attributes_count
+
+0009		9	attribute_name_index
+0000001D		29	attribute_length
+
+Following the descriptor_index of a method is its attributes_count.
+In this case there is only 1 attribute for the <init>() method.
+
+The list of attributes follows the attributes_count. Here there is
+only one attribute, attributes[0]. The first two bytes of the
+attribute are the attribute_name_index. The attribute_name_index is
+the index of the constant pool entry that contains the name of the
+attribute. In this case attribute_name_index is 9 and
+constant_pool[9] is "Code". Therefore this is the <init>()'s Code
+attribute, which will contain, among a few other items, the actual
+bytecode sequence for the method.
+
+The length word indicates the number of bytes in the attribute, in
+this case 29 bytes. This means 29 bytes will follow this length word.
+********
+Step 32. <init>() Max Stack and Max Locals
+
+0001		1	max_stack
+0001		1	max_locals
+
+Max stack is a two byte unsigned integer that indicates the maximum
+number of words on the JVM's operand stack at any point in the
+method, in this case 1. Max locals is a two byte unsigned integer
+that indicates the number of local variable words used by the method,
+in this case 1.
+****
+Step 33. <init>() Bytecodes and Exception Table
+
+00000005		5	code_length
+2AB70003B1		code[code_length]
+0000		0	exception_table_length
+
+code_length indicates the number of bytes in the bytecode sequence
+for this method. The actual bytecodes follow the code_length. In this
+case the <init>() method bytecode sequence fills 5 bytes. This method
+was generated by the compiler and doesn't appear in the Java source
+file for class Act.
+
+pc	instruction		mnemonic
+--	-----------		--------
+0	2A		aload_0
+1	B70003		invokespecial #3 <Method java.lang.Object.<init>()V>
+4	B1		return
+
+If you look at the operand for the second instruction, invokespecial
+(bytecode B7), you will see a 0003. If you go look at
+constant_pool[3] you'll find a name and type constant that describes
+the <init> method of java.lang.Object. All this default <init>()
+method does is invoke the no-arg <init>() method in the superclass.
+
+exception_table_length indicates the number of exceptions that are
+caught in the method. In the case of <init>(), exception_table_length
+is zero because no exceptions are explicitly caught in this method.
+For methods that do catch exceptions, an array of exception handler
+tables immediately follows the exception_table_length.
+***********
+Step 34. Line Number Table Attribute of the <init>() Code Attribute
+
+hex		dec	name
+---		---	----
+0001		1	attributes_count
+000C		12	attribute_name_index
+00000006		6	attribute_length
+0001  		1	line_number_table_length
+
+The <init>() "Code" attribute itself has a "sub-attribute" section.
+I.e., the attributes listed here belong to the "Code" attribute of
+<init>().
+
+attributes_count is 1, which indicates there is only one attribute
+belonging to the "Code" attribute of <init>(). attribute_name_index
+is a 12, and constant_pool[12] is the string "LineNumberTable". This
+is the name of the attribute. attribute_length gives the length of
+attribute "LineNumberTable" as 6. The line_number_table_length is 1,
+meaning that there will be only 1 line_number_table entry immediately
+following.
+**********
+Step 35. Line Number Table for <init>()
+
+hex		dec	name		what it refers to
+---		---	----		-----------------
+0000		0	start_pc		aload_0, invokespecial #3, return
+0002		2	line_number	class Act {
+
+The above table associates a line in the Java source file with the
+starting instruction of the <init>() method. The start_pc value of
+the table entry indicates the offset inside the <init>() bytecode
+sequence of an instruction. The line_number value of the table entry
+is the line number of the source file that corresponds to that
+instruction.
+
+This is the last of the information in the class file about the
+<init>() method, which was the last method to be described by this
+file. The last section of the class file follows, the general class
+attributes.
+****
+Step 36. General Attributes
+
+0001		1	attributes_count
+
+000E		14	attribute_name_index
+00000002		2	attribute_length
+0008		8	sourcefile_index
+
+A class file can have any number of attributes at the end. In this
+case attributes_count is a 1, so there is only 1 attribute here. The
+attribute_name_index is 14, and constant_pool[14] is the string
+"SourceFile". Therefore, this is the "SourceFile" attribute.
+attribute_length gives the length of the attribute as 2, which means
+that two bytes will follow the attribute_length field. The last two
+bytes are the sourcefile_index, which in this case is 8.
+constant_pool[8] is the string "Act.java", which as it happens, is
+the name of the source file compiled by javac to generate this file,
+Act.class.
+**********

@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>Inside J2VM Interactive Illustrations - Inner Float</TITLE>
+<META NAME="description" content="Inner Float (Java applet) - a
+Java float reveals its inner nature.">
+<META NAME="keywords" content="Java Virtual Machine, floating point arithmetic,
+Java float, IEEE 754 floating point, IEEE-754">
+<META NAME="author" content="Bill Venners">
+</HEAD>
+<!--BEGIN_ARTIMA_COLOR_SCHEME-->
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#000099" VLINK="#009999" ALINK="#CC0000">
+<!--END_ARTIMA_COLOR_SCHEME-->
+<!--BEGIN_FISH_HEADING--> 
+<CENTER>
+<IMG src="images/fishhead.gif" alt="Interactive Illustrations for Inside the
+Java 2 Virtual Machine">
+</CENTER>
+<!--END_FISH_HEADING--> 
+<!--BEGIN_MAIN_TITLES-->
+<FONT face="arial, helvetica" COLOR="#000066">
+<FONT size=6>Inner Float</FONT><BR>
+<FONT size=3>A <CODE>float</CODE> Reveals Its Inner Nature</FONT><BR>
+</FONT>
+<!--END_MAIN_TITLES-->
+<!--BEGIN_TITLE_UNDERBAR-->
+<HR align="left" width="85%">
+<!--END_TITLE_UNDERBAR-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_TAG-->
+<TABLE CELLPADDING="3" CELLSPACING="0" BORDER="0" width="85%">
+<TR>
+<TD  valign="top" rowspan="100">
+<!--END_RIGHT_MARGIN_TABLE_TAG-->
+<!--BEGIN_MAIN_BODY-->
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="LogicalResults.html">Previous</A>&nbsp;| 
+<A href="CircleOfSquares.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+
+
+<p>The <i>Inner Float</i> applet, included below, lets you experiment with the IEEE 754 floating point format. This applet accompanies Chapter 14, &quot;Floating Point Arithmetic,&quot; of <i>Inside the Java 2 Virtual Machine</i>.</p>
+
+<p><center><applet CODE="InnerFloat.class" ARCHIVE="InnerFloat.jar"
+CODEBASE="InnerFloat" WIDTH=450 HEIGHT=200><b>For some reason, your browser won't let you view this way cool Java applet.</b></applet></center></p>
+
+<p> The <i>Inner Float</i> applet displays the value of a <code>float</code> in several formats. The top three lines show each of the three parts of a <code>float</code>--the sign, exponent, and mantissa-- individually in binary. The fourth line, labeled &quot;binary,&quot; shows the entire 32-bit image of the <code>float</code> in binary (with all three pieces together). The fifth line, labeled &quot;hex,&quot; shows the 32-bit image of the <code>float</code> in hex.
+</p>
+<p>The last two lines show the value of the <code>float</code> in radix two and ten. Note that the radix two scientific notation format shows the mantissa
+and exponent in base ten. Before being displayed, the actual mantissa is multiplied by 2<sup>24</sup>,
+which yields an integral number, and the unbiased exponent is decremented by 24. Both the
+integral mantissa and exponent are then easily converted to base ten and displayed.
+</p>
+
+<p>A few key-press sequences that illustrate interesting characteristics of IEEE 754 floating point numbers are given below:
+</p>
+<p><b><font SIZE=+1>Too Big For Its Increments 
+<br></font></b>Try this key-press sequence:
+<pre>
+*=0
+++
+*=2, *=2, *=2, ... repeat until radix 2 == 8388608e1
+++, ++, ...
+</pre>
+<p>Press the <code>*=2</code> button repeatedly until the exponent of the radix two display is a one. 
+When you then press the <code>++</code> button, note that the value of the <code>float</code> doesn't change. The <code>float</code>'s value is too large to be affected by adding only one.</p>
+
+<p><b><font SIZE=+1>Too Small For Its Increments 
+<br></font></b>Try this key-press sequence:
+<pre>
+Min
+++
+--            note that you can't get back to Min
+</pre>
+<p>When you then press the <code>++</code> button, you loose precision because Min is so much smaller than one. When you then press the <code>--</code> button, you get zero. </p>
+
+<p><b><font SIZE=+1>Equivalence of Radix 2 and Radix 10
+<br></font></b>Try this key-press sequence:
+<pre>
+*=0
+++
+*=2, *=2, *=2, ... repeat until radix 2 == 8388608
+</pre>
+<p>Press the <code>*=2</code> button repeatedly until the exponent of the radix two display is a zero (it will just be shown as &quot;8388608&quot; without an &quot;e0&quot;). At that point, 
+the value displayed in radix 10 is 8.3361e+06, which is the same as the radix 2 number.
+</p>
+<p><b><font SIZE=+1>Underflow to Zero 
+<br></font></b> Try this key-press sequence:
+<pre>
+Min
+/=2
+*=2, *=2, ... note that you can't get back to Min again
+</pre>
+<p>When you press the <code>/=2</code> button, the value of the <code>float</code> underflows to zero. When a floating point operation underflows to zero, all bits of precision are lost.</p>
+
+<p><b><font SIZE=+1>Underflow to Negative Zero 
+<br></font></b> Try this key-press sequence:
+<pre>
+Min
+*=-1
+/=2
+*=2, *=2, ... note that you can't get back to (Min * -1) again
+</pre>
+<p>When you press the <code>/=2</code> button, the value of the <code>float</code> underflows to negative zero. When a floating point operation underflows to negative zero, as when it underflows to positive zero, all bits of precision are lost.</p>
+
+<p><b><font SIZE=+1>Overflow to Infinity 
+<br></font></b> Try this key-press sequence:
+<pre>
+Max
+*=2
+/=2, /=2, ... note that  you can't get back to Max again</pre></p>
+<p>When you press the <code>*=2</code> button, the value of the <code>float</code> overflows to infinity. When a floating point operation overflows to infinity, all bits of precision are lost.</p>
+
+<p><b><font SIZE=+1>Overflow to Negative Infinity 
+<br></font></b> Try this key-press sequence:
+<pre>
+Max
+*=-1
+*=2
+/=2, /=2, ... note that you can't get back to (Max * -1) again </pre></p>
+<p>When you press the <code>*=2</code> button, the value of the <code>float</code> overflows to negative infinity. When a floating point operation overflows to negative infinity, as when it overflows to positive infinity, all bits of precision are lost.</p>
+
+<p><b><font SIZE=+1>Infinity Times Zero is NaN
+<br></font></b> Try this key-press sequence:
+<pre>
++Inf
+*=0</pre></p>
+
+<p><b><font SIZE=+1>Infinity Times -1 Changes Sign of Infinity
+<br></font></b> Try this key-press sequence:
+<pre>
++Inf
+*=(-1)</pre></p>
+
+<p><b><font SIZE=+1>Infinity Times 2 is Still Infinity<br></font></b>
+Try this key-press sequence:
+<pre>+Inf
+*=(2), *=(2), *=(2), ... repeat until you're convinced
+</pre>
+</p>
+<p>For a <code>float</code>, infinity is as big as it gets.
+</p>
+
+<p><HR WIDTH=500></p>
+<p>
+Click here to view a page of links to the <a href="sourcecode.html#InnerFloat">source code</a> of the <i>Inner Float</i> applet.
+</p>
+
+
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+<A href="LogicalResults.html">Previous</A>&nbsp;| 
+<A href="CircleOfSquares.html">Next</A>&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+<!--END_MAIN_BODY-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_CLOSE-->
+</TD>
+</TR>
+</TABLE>
+<!--END_RIGHT_MARGIN_TABLE_CLOSE-->
+<!--BEGIN_FOOTER_SEPARATOR-->
+<HR width="100%">
+<!--END_FOOTER_SEPARATOR-->
+<!--BEGIN_FOOTER-->
+<TABLE width="100%">
+<TR>
+<TD align="left">
+<FONT size="1" face="geneva, arial, sans-serif">
+<!--REG_COPYRIGHT_LINE--><A href="copyright.html">Copyright</A> &copy; 1996-1999 Bill Venners. All Rights Reserved.
+</FONT>
+</TD>
+</TR>
+</TABLE>
+<!--END_FOOTER-->
+</body>
+</html>

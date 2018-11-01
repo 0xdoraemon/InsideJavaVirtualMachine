@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>Inside J2VM Interactive Illustrations - Links to Source Code</TITLE>
+<META NAME="description" content="Links to source code for the Java
+applets in the Interactive Illustrations for Inside
+the Java 2 Virtual Machine by Bill Venners.">
+<META NAME="keywords" content="Java Virtual Machine, Java applet source code">
+<META NAME="author" content="Bill Venners">
+</HEAD>
+<!--BEGIN_ARTIMA_COLOR_SCHEME-->
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#000099" VLINK="#009999" ALINK="#CC0000">
+<!--END_ARTIMA_COLOR_SCHEME-->
+<!--BEGIN_FISH_HEADING--> 
+<CENTER>
+<IMG src="images/fishhead.gif" alt="Interactive Illustrations for Inside the
+Java 2 Virtual Machine">
+</CENTER>
+<!--END_FISH_HEADING--> 
+<!--BEGIN_MAIN_TITLES-->
+<FONT face="arial, helvetica" COLOR="#000066">
+<FONT size=6>Links to Source Code</FONT><BR>
+</FONT>
+<!--END_MAIN_TITLES-->
+<!--BEGIN_TITLE_UNDERBAR-->
+<HR align="left" width="85%">
+<!--END_TITLE_UNDERBAR-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_TAG-->
+<TABLE CELLPADDING="3" CELLSPACING="0" BORDER="0" width="85%">
+<TR>
+<TD  valign="top" rowspan="100">
+<!--END_RIGHT_MARGIN_TABLE_TAG-->
+<!--BEGIN_MAIN_BODY-->
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+Previous&nbsp;| 
+Next&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+
+<a name="jvmsim"></a><p><b><font SIZE=+1>The Java Virtual Machine Simulator Applets
+<br></font></b>The Java Virtual Machine simulator applets all share a common package, <code>COM.artima.jvmsim</code>, that contains the bulk of the code that performs the simulation. For each individual applet, a class in the unnamed package serves as a &quot;personality module&quot; that customizes the behavior of the <code>COM.artima.jvmsim</code> code. All of these personality module classes descend from class <code>COM.artima.jvmsim.JVMSimulator</code>, which in turn descends from class <code>java.applet.Applet</code>. The personality module classes take as their name the title of the applet they represent. For example, the personality module for the <i>Eternal Math</i> applet is <code>EternalMath.java</code>.
+</p>
+
+<p>The source files for the personality module classes are contained in the <code>applets/JVMSimultators</code> directory of the CD-ROM. One other class--<code>Ball.java</code>, an exception used by the <i>Play Ball!</i> applet--also resides in this directory. Here's a full list of the classes in the unnamed package for the Java Virtual Machine simulator applets:
+</p>
+
+<p><a href="JVMSimulators/Ball.java">Ball.java</a>
+<br>
+<a href="JVMSimulators/CircleOfSquares.java">CircleOfSquares.java</a>
+<br>
+<a href="JVMSimulators/ConversionDiversion.java">ConversionDiversion.java</a>
+<br>
+<a href="JVMSimulators/EternalMath.java">EternalMath.java</a>
+<br>
+<a href="JVMSimulators/FibonacciForever.java">FibonacciForever.java</a>
+<br>
+<a href="JVMSimulators/HopAround.java">HopAround.java</a>
+<br>
+<a href="JVMSimulators/LogicalResults.java">LogicalResults.java</a>
+<br>
+<a href="JVMSimulators/PlayBall.java">PlayBall.java</a>
+<br>
+<a href="JVMSimulators/PrimeTime.java">PrimeTime.java</a>
+<br>
+<a href="JVMSimulators/SayingTomato.java">SayingTomato.java</a>
+<br>
+<a href="JVMSimulators/SlicesOfPi.java">SlicesOfPi.java</a>
+<br>
+<a href="JVMSimulators/ThreeDArray.java">ThreeDArray.java</a>
+</p>
+<p>A list of the types in package <code>COM.artima.jvmsim</code> is shown below. These source files are contained in the <code>applets/JVMSimultators/COM/artima/jvmsim</code> directory of the CD-ROM:
+</p>
+<p>
+<a href="JVMSimulators/COM/artima/jvmsim/BreakpointException.java">BreakpointException.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/ColoredLabel.java">ColoredLabel.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/ConstantPoolEntry.java">ConstantPoolEntry.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/ExceptionTableEntry.java">ExceptionTableEntry.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/GrayButton.java">GrayButton.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/GridSnapLayout.java">GridSnapLayout.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/HexString.java">HexString.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/JVMSimError.java">JVMSimError.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/JVMSimulator.java">JVMSimulator.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/LocalVarsPanel.java">LocalVarsPanel.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/Method.java">Method.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/MethodAreaPanel.java">MethodAreaPanel.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/OpCode.java">OpCode.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/OperandStackPanel.java">OperandStackPanel.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/ReturnAddress.java">ReturnAddress.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/StackFrame.java">StackFrame.java</a><br>
+<a href="JVMSimulators/COM/artima/jvmsim/StringTable.java">StringTable.java</a><br>
+</p>
+
+<a name="HeapOfFish"></a><p><b><font SIZE=+1>The <i>Heap of Fish</i> Applet
+<br></font></b>The types that make up the <i>Heap of Fish</i> applet, all of which reside in the unnamed package, are listed below. These source files are contained in the <code>applets/HeapOfFish</code> directory of the CD-ROM.
+</p>
+<a href="HeapOfFish/AllocateFishButtonPanel.java">AllocateFishButtonPanel.java</a><br>
+<a href="HeapOfFish/AllocateFishPanel.java">AllocateFishPanel.java</a><br>
+<a href="HeapOfFish/AssignReferencesCanvas.java">AssignReferencesCanvas.java</a><br>
+<a href="HeapOfFish/AssignReferencesCanvases.java">AssignReferencesCanvases.java</a><br>
+<a href="HeapOfFish/AssignReferencesCheckboxPanel.java">AssignReferencesCheckboxPanel.java</a><br>
+<a href="HeapOfFish/AssignReferencesPanel.java">AssignReferencesPanel.java</a><br>
+<a href="HeapOfFish/BigRedFishIcon.java">BigRedFishIcon.java</a><br>
+<a href="HeapOfFish/BlueFishButtonCanvas.java">BlueFishButtonCanvas.java</a><br>
+<a href="HeapOfFish/BlueFishButtonPanel.java">BlueFishButtonPanel.java</a><br>
+<a href="HeapOfFish/ColoredLabel.java">ColoredLabel.java</a><br>
+<a href="HeapOfFish/CompactHeapButtonPanel.java">CompactHeapButtonPanel.java</a><br>
+<a href="HeapOfFish/CompactHeapCanvas.java">CompactHeapCanvas.java</a><br>
+<a href="HeapOfFish/CompactHeapPanel.java">CompactHeapPanel.java</a><br>
+<a href="HeapOfFish/FishIcon.java">FishIcon.java</a><br>
+<a href="HeapOfFish/GarbageCollectButtonPanel.java">GarbageCollectButtonPanel.java</a><br>
+<a href="HeapOfFish/GarbageCollectCanvas.java">GarbageCollectCanvas.java</a><br>
+<a href="HeapOfFish/GarbageCollectPanel.java">GarbageCollectPanel.java</a><br>
+<a href="HeapOfFish/GCHeap.java">GCHeap.java</a><br>
+<a href="HeapOfFish/GridSnapLayout.java">GridSnapLayout.java</a><br>
+<a href="HeapOfFish/HeapOfFish.java">HeapOfFish.java</a><br>
+<a href="HeapOfFish/HeapOfFishCanvases.java">HeapOfFishCanvases.java</a><br>
+<a href="HeapOfFish/HeapOfFishControlPanel.java">HeapOfFishControlPanel.java</a><br>
+<a href="HeapOfFish/HeapOfFishModeCheckboxPanel.java">HeapOfFishModeCheckboxPanel.java</a><br>
+<a href="HeapOfFish/HeapOfFishStrings.java">HeapOfFishStrings.java</a><br>
+<a href="HeapOfFish/HeapOfFishTextArea.java">HeapOfFishTextArea.java</a><br>
+<a href="HeapOfFish/LinkFishCanvas.java">LinkFishCanvas.java</a><br>
+<a href="HeapOfFish/LittleYellowFishIcon.java">LittleYellowFishIcon.java</a><br>
+<a href="HeapOfFish/LocalVariables.java">LocalVariables.java</a><br>
+<a href="HeapOfFish/MediumBlueFishIcon.java">MediumBlueFishIcon.java</a><br>
+<a href="HeapOfFish/MoveFishCanvas.java">MoveFishCanvas.java</a><br>
+<a href="HeapOfFish/ObjectHandle.java">ObjectHandle.java</a><br>
+<a href="HeapOfFish/PoolsCanvas.java">PoolsCanvas.java</a><br>
+<a href="HeapOfFish/RedFishButtonCanvas.java">RedFishButtonCanvas.java</a><br>
+<a href="HeapOfFish/RedFishButtonPanel.java">RedFishButtonPanel.java</a><br>
+<a href="HeapOfFish/SwimmingFishCanvas.java">SwimmingFishCanvas.java</a><br>
+<a href="HeapOfFish/UnlinkFishCanvas.java">UnlinkFishCanvas.java</a><br>
+<a href="HeapOfFish/YellowFishButtonCanvas.java">YellowFishButtonCanvas.java</a><br>
+<a href="HeapOfFish/YellowFishButtonPanel.java">YellowFishButtonPanel.java</a><br>
+</p>
+
+<a name="GettingLoaded"></a><p><b><font SIZE=+1>The <i>Getting Loaded</i> Applet
+<br></font></b>The types that make up the <i>Getting Loaded</i> applet, all of which reside in the unnamed package, are listed below. These source files are contained in the <code>applets/GettingLoaded</code> directory of the CD-ROM.
+</p>
+<a href="GettingLoaded/ButtonPanel.java">ButtonPanel.java</a><br>
+<a href="GettingLoaded/ColoredLabel.java">ColoredLabel.java</a><br>
+<a href="GettingLoaded/ControlPanel.java">ControlPanel.java</a><br>
+<a href="GettingLoaded/GettingLoaded.java">GettingLoaded.java</a><br>
+<a href="GettingLoaded/HexString.java">HexString.java</a><br>
+<a href="GettingLoaded/JVMPacman.java">JVMPacman.java</a><br>
+<a href="GettingLoaded/StepNode.java">StepNode.java</a><br>
+</p>
+
+<a name="InnerInt"></a><p><b><font SIZE=+1>The <i>Inner Int</i> Applet
+<br></font></b>The types that make up the <i>Inner Int</i> applet, all of which reside in the unnamed package, are listed below. These source files are contained in the <code>applets/InnerInt</code> directory of the CD-ROM.
+</p>
+<a href="InnerInt/ColoredLabel.java">ColoredLabel.java</a><br>
+<a href="InnerInt/GrayButton.java">GrayButton.java</a><br>
+<a href="InnerInt/InnerInt.java">InnerInt.java</a><br>
+<a href="InnerInt/PanelWithInsets.java">PanelWithInsets.java</a><br>
+<a href="InnerInt/StringTable.java">StringTable.java</a><br>
+</p>
+
+<a name="InnerFloat"></a><p><b><font SIZE=+1>The <i>Inner Float</i> Applet
+<br></font></b> The types that make up the <i>Inner Float</i> applet, all of which reside in the unnamed package, are listed below. These source files are contained in the <code>applets/InnerFloat</code> directory of the CD-ROM.
+</p>
+<a href="InnerFloat/ColoredLabel.java">ColoredLabel.java</a><br>
+<a href="InnerFloat/GrayButton.java">GrayButton.java</a><br>
+<a href="InnerFloat/InnerFloat.java">InnerFloat.java</a><br>
+<a href="InnerFloat/PanelWithInsets.java">PanelWithInsets.java</a><br>
+</p>
+
+<!--BEGIN_II_LINKS-->
+<DIV id="links">
+<CENTER>
+<FONT size="1" face="geneva, arial, sans-serif">
+<STRONG>
+<A href="index.html">Interactive Illustrations</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/resources/">Resources Page</A>&nbsp;| 
+<A href="http://www.artima.com/insidejvm/blurb.html">Order the Book</A>&nbsp;| 
+Previous&nbsp;| 
+Next&nbsp; 
+</STRONG>
+</FONT>
+</CENTER>
+</DIV>
+<!--END_II_LINKS-->
+<!--END_MAIN_BODY-->
+<!--BEGIN_RIGHT_MARGIN_TABLE_CLOSE-->
+</TD>
+</TR>
+</TABLE>
+<!--END_RIGHT_MARGIN_TABLE_CLOSE-->
+<!--BEGIN_FOOTER_SEPARATOR-->
+<HR width="100%">
+<!--END_FOOTER_SEPARATOR-->
+<!--BEGIN_FOOTER-->
+<TABLE width="100%">
+<TR>
+<TD align="left">
+<FONT size="1" face="geneva, arial, sans-serif">
+<!--REG_COPYRIGHT_LINE--><A href="copyright.html">Copyright</A> &copy; 1996-1999 Bill Venners. All Rights Reserved.
+</FONT>
+</TD>
+</TR>
+</TABLE>
+<!--END_FOOTER-->
+</body>
+</html>

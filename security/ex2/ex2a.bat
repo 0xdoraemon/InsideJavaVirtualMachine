@@ -1,0 +1,1 @@
+java -Djava.security.manager -Djava.security.policy=policyfile.txt -Dcom.artima.ijvm.cdrom.home=d:\books\InsideJVM\manuscript\cdrom -cp .;jars/friend.jar;jars/stranger.jar Example2a
